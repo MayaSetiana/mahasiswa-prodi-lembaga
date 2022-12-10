@@ -65,7 +65,7 @@ const Register = () => {
       nim,
       nama,
       angkatan,
-      prodiId: prodi,
+      prodi,
       password,
     }
 

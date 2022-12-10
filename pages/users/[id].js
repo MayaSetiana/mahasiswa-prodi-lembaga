@@ -34,8 +34,15 @@ const Detail = () => {
   const router = useRouter();
 
   const getMahasiswa = async (nim) => {
+    if (!token && !user)router.push('/login');
     try {
-      const res = await backend.get(`/mahasiswa/${nim}`);
+      const res = await backend.get(`/mahasiswa/${nim}`,
+      {
+        headers: {
+          token,
+          validateStatus: false,
+        },
+      });
 
       console.log(res.data.mahasiswa.matakuliah);
       setMahasiswa(res.data.mahasiswa);
@@ -167,7 +174,7 @@ const Detail = () => {
         >
           <Avatar
             size="2xl"
-            name="Username"
+            name={mahasiswa.nama}
             alt="Avatar Alt"
             mb={4}
             pos="relative"
@@ -220,7 +227,7 @@ const Detail = () => {
                 </Thead>
 
                 <Tbody>
-                  {mahasiswa.matakuliah?.map((mk) => (
+                  {mahasiswa.mahasiswa_matakuliah?.map((mk) => (
                     <Tr key={mk.id}>
                       <Td>{mk.id}</Td>
                       <Td>{mk.nama}</Td>

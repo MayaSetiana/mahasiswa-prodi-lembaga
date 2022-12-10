@@ -30,17 +30,23 @@ export default function Home() {
   const router = useRouter();
 
   const getAllMahasiswa = async () => {
+    if (!token && !user)router.push('/login');
     try {
+      console.log(`token = ${token}`)
       const res = await backend.get("/mahasiswa");
       setMahasiswas(res.data.mahasiswa);
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   const getUserByToken = async () => {
-    try {
-      const res = await backend.get("/mahasiswa/profile", {
+    if (!token) {
+      router.push('/login');
+    } else {
+      
+      try {
+        const res = await backend.get("/mahasiswa/profile", {
         headers: {
           token,
           validateStatus: false,
@@ -56,11 +62,13 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
+  }
   };
 
   const handleLogout = () => {
     setToken(null);
     setUser(null);
+    router.push('/login')
   };
 
   useEffect(() => {
@@ -111,6 +119,7 @@ export default function Home() {
                     <Td>{mahasiswa.angkatan}</Td>
                     <Td>{mahasiswa.prodi.nama}</Td>
                     <Td>
+                      {mahasiswa && user && mahasiswa.nim === user.nim && 
                       <Button
                         size="sm"
                         colorScheme="green"
@@ -120,6 +129,7 @@ export default function Home() {
                       >
                         Detail
                       </Button>
+                      }
                     </Td>
                   </Tr>
                 ))}

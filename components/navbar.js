@@ -35,7 +35,7 @@ const Navbar = ({ user, handleLogout, handleLogin, homepage }) => {
               <Text fontSize="lg">{user.nama}</Text>
               <Menu m={0}>
                 <MenuButton minW={0} rounded="full">
-                  <Avatar size="sm" />
+                  <Avatar size="sm" name={user.nama}/>
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
